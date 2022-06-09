@@ -2,8 +2,8 @@ use raylib::prelude::*;
 
 
 const SQUARE_SIZE: i32 = 200;
-const screenWidth: i32 = 600;
-const screenHeight: i32 = 800;
+const SCREEN_WIDTH: i32 = 600;
+const SCREEN_HEIGHT: i32 = 800;
 
 fn main() {
     let mut turn: i32 = 1;
@@ -11,11 +11,11 @@ fn main() {
     let  (mut p1_points, mut p2_points) = (0, 0);
 
     let (mut rl, thread) = raylib::init()
-        .size(screenWidth, screenHeight)
+        .size(SCREEN_WIDTH, SCREEN_HEIGHT)
         .title("Raylib Tic Tac Toe, written in Rust")
         .build();
 
-    field = resetGame(field);
+    field = reset_game(field);
 
     rl.set_target_fps(60);
     
@@ -24,7 +24,7 @@ fn main() {
         let mut d = rl.begin_drawing(&thread);
     
         if d.is_mouse_button_pressed(MouseButton::MOUSE_LEFT_BUTTON) {        	
-            let c_field: i32 = getField(&d);
+            let c_field: i32 = get_field(&d);
         	println!("Pressed Field: {}", c_field);
         	
         	if c_field != 0 {
@@ -48,17 +48,17 @@ fn main() {
 
                 print!("\n");
 
-    			if checkWinner(field) != 0 {
-    				if checkWinner(field) == 1 {
+    			if check_winner(field) != 0 {
+    				if check_winner(field) == 1 {
     					println!("Player 1 wins!");
     					p1_points += 1;
-    				} else if checkWinner(field) == 2 {
+    				} else if check_winner(field) == 2 {
     					println!("Player 2 wins!");
     					p2_points += 1;
-        			} else if checkWinner(field) == 3 {
+        			} else if check_winner(field) == 3 {
                         println!("Draw!");
                     }
-        			field = resetGame(field);
+        			field = reset_game(field);
                     turn = 1;
         		}
         	}      	
@@ -68,12 +68,12 @@ fn main() {
 
         d.clear_background(Color::RAYWHITE);
             
-        for i in  0..(screenWidth/SQUARE_SIZE + 1) {
-            d.draw_line(SQUARE_SIZE*i, SQUARE_SIZE, SQUARE_SIZE*i, screenHeight, Color::DARKGRAY);
+        for i in  0..(SCREEN_WIDTH/SQUARE_SIZE + 1) {
+            d.draw_line(SQUARE_SIZE*i, SQUARE_SIZE, SQUARE_SIZE*i, SCREEN_HEIGHT, Color::DARKGRAY);
         }
 
-        for i in  0..(screenHeight/SQUARE_SIZE + 1) {
-            d.draw_line(0, 200 * (i + 1), screenWidth, SQUARE_SIZE * (i + 1), Color::DARKGRAY);
+        for i in  0..(SCREEN_HEIGHT/SQUARE_SIZE + 1) {
+            d.draw_line(0, 200 * (i + 1), SCREEN_WIDTH, SQUARE_SIZE * (i + 1), Color::DARKGRAY);
         }
             
             
@@ -95,7 +95,7 @@ fn main() {
     } 
 }
 
-fn getField(d: &RaylibDrawHandle)-> i32 {
+fn get_field(d: &RaylibDrawHandle)-> i32 {
 	if d.get_mouse_x() >= 0 && d.get_mouse_x() <= SQUARE_SIZE - 1 && d.get_mouse_y() >= SQUARE_SIZE + 1 && d.get_mouse_y() <= 2 * SQUARE_SIZE - 1 {
 		return 1;
 	} else if d.get_mouse_x() >= SQUARE_SIZE && d.get_mouse_x() <= 2 * SQUARE_SIZE - 1 && d.get_mouse_y() >= SQUARE_SIZE + 1 && d.get_mouse_y() <= 2 * SQUARE_SIZE - 1 {
@@ -119,7 +119,7 @@ fn getField(d: &RaylibDrawHandle)-> i32 {
 	}
 }
 
-fn checkWinner(field: [[i32; 3]; 3])-> i32 {
+fn check_winner(field: [[i32; 3]; 3])-> i32 {
 	//Check horizontal
     for i in 0..3 {
 		if field[0][i] != 0 && field[0][i] == field[1][i] && field[0][i] == field[2][i] {
@@ -153,7 +153,7 @@ fn checkWinner(field: [[i32; 3]; 3])-> i32 {
     return 0;
 }
 
-fn resetGame(mut field: [[i32; 3]; 3])-> [[i32; 3]; 3] {
+fn reset_game(mut field: [[i32; 3]; 3])-> [[i32; 3]; 3] {
 	for i in 0..3 {
     		for j in 0..3 {
     			field[i][j] = 0;

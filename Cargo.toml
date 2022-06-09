@@ -1,5 +1,5 @@
 [package]
-name = "Raylib-rust-tic-tac-toe"
+name = "raylib-rust-tic-tac-toe"
 version = "0.1.0"
 edition = "2021"
 
